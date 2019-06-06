@@ -1,0 +1,57 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: gcb-gitops
+  namespace: shared
+spec:
+  type: LoadBalancer
+  selector:
+    app: gcb-gitops
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: gcb-gitops
+  name: gcb-gitops
+  namespace: shared
+  annotations:
+    flux.weave.works/automated: "true"
+    flux.weave.works/tag.gcb-gitops: master-*
+spec:
+  selector:
+    matchLabels:
+      app: gcb-gitops
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp:
+      labels:
+        app: gcb-gitops
+    spec:
+      containers:
+      - image: gcr.io/gke-private-demo1/gcb-gitops:master-c2def43
+        imagePullPolicy: Always
+        name: gcb-gitops
+        ports:
+        - containerPort: 80
+          protocol: TCP
+        readinessProbe:
+          tcpSocket:
+            port: 80
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        livenessProbe:
+          tcpSocket:
+            port: 80
+          initialDelaySeconds: 30
+          periodSeconds: 20
