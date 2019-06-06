@@ -39,7 +39,7 @@ spec:
         app: gcb-gitops
     spec:
       containers:
-      - image: gcr.io/gke-private-demo1/gcb-gitops:master-c2def43
+      - image: gcr.io/gke-private-demo1/gcb-gitops:master-540ffba
         imagePullPolicy: Always
         name: gcb-gitops
         ports:
