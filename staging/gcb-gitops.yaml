@@ -3,7 +3,7 @@ kind: Service
 apiVersion: v1
 metadata:
   name: gcb-gitops
-  namespace: shared
+  namespace: staging
 spec:
   type: LoadBalancer
   selector:
@@ -19,7 +19,7 @@ metadata:
   labels:
     app: gcb-gitops
   name: gcb-gitops
-  namespace: shared
+  namespace: staging
   annotations:
     flux.weave.works/automated: "true"
     flux.weave.works/tag.gcb-gitops: master-*
