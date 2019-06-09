@@ -1,0 +1,17 @@
+---
+apiVersion: flux.weave.works/v1beta1
+kind: HelmRelease
+metadata:
+  name: rabbit
+  namespace: staging
+spec:
+  releaseName: rabbitmq-staging
+  chart:
+    repository: https://kubernetes-charts.storage.googleapis.com/
+    name: rabbitmq
+    version: 4.11.1
+  values:
+    replicas: 1
+    rabbitmq:
+      username: rabbitmq
+      password: password
